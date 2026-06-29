@@ -22,21 +22,21 @@ Due to GitHub file size limits, the large dataset (~2.4 GB) containing DFSAR ima
 
 **For Team Members:**
 1. Download the `Data.zip` file shared by the project lead (via Google Drive/USB).
-2. Extract the folder and place it directly in the root of this project repository so that the path looks like this: `ISRO Project/Data/`.
+2. Extract the folder and place it directly in the `ICE Detection/` folder of this project repository so that the path looks like this: `ISRO Project/ICE Detection/Data/`.
 3. Do not alter the subdirectories inside `Data/`, as the scripts depend on the specific folder structure.
 
 ---
 
 ## Code Structure & Workflow
 
-The python scripts in the `src/` folder are designed to be run sequentially to process the radar data, compute metrics, and map the ice candidates.
+The python scripts in the `ICE Detection/src/` folder are designed to be run sequentially to process the radar data, compute metrics, and map the ice candidates.
 
-- **`src/00_preflight_checklist.py`** & **`src/preflight_verify.py`**: Validates that all necessary dependencies (GDAL, rasterio, numpy) and data files are present before starting the analysis.
-- **`src/01_ingest_calibrate.py`**: Ingests the raw DFSAR data and performs initial calibration.
-- **`src/02_compute_cpr_dop.py`**: Computes radar polarimetric parameters such as Circular Polarization Ratio (CPR) and Degree of Polarization (DOP).
-- **`src/03_map_ice_candidates.py`**: Applies specific criteria (e.g., CPR > 1 and DOP < 0.13) to isolate potential volumetric scattering caused by subsurface ice from surface roughness.
-- **`src/04_spudis_check.py`**: Validates the detected ice signatures against established scientific literature thresholds (like the Spudis models).
-- **`src/peek_sli.py` & `src/peek_tiff.py`**: Utility scripts to inspect `.sli` and `.tiff` output files generated during the pipeline.
+- **`ICE Detection/src/00_preflight_checklist.py`** & **`ICE Detection/src/preflight_verify.py`**: Validates that all necessary dependencies (GDAL, rasterio, numpy) and data files are present before starting the analysis.
+- **`ICE Detection/src/01_ingest_calibrate.py`**: Ingests the raw DFSAR data and performs initial calibration.
+- **`ICE Detection/src/02_compute_cpr_dop.py`**: Computes radar polarimetric parameters such as Circular Polarization Ratio (CPR) and Degree of Polarization (DOP).
+- **`ICE Detection/src/03_map_ice_candidates.py`**: Applies specific criteria (e.g., CPR > 1 and DOP < 0.13) to isolate potential volumetric scattering caused by subsurface ice from surface roughness.
+- **`ICE Detection/src/04_spudis_check.py`**: Validates the detected ice signatures against established scientific literature thresholds (like the Spudis models).
+- **`ICE Detection/src/peek_sli.py` & `ICE Detection/src/peek_tiff.py`**: Utility scripts to inspect `.sli` and `.tiff` output files generated during the pipeline.
 
 ## Getting Started
 
@@ -50,6 +50,7 @@ The python scripts in the `src/` folder are designed to be run sequentially to p
    Ensure you have Python installed along with `numpy`, `scipy`, `gdal`, and `rasterio`.
 4. **Run the Preflight Check**:
    ```bash
+   cd "ICE Detection"
    python src/00_preflight_checklist.py
    ```
 5. **Execute the Pipeline**: Run the numbered scripts `01` through `04` in order.
