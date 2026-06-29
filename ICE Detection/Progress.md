@@ -278,10 +278,30 @@ A vast majority (91.3%) of the ice candidates are safely confined within the int
 
 ---
 
+### Part E: Volume Estimation — ✅ COMPLETED
+**Script:** `src/05_volume_estimation.py`
+
+Based on the 995 confirmed interior ice pixels, we calculated the total potential volume of subsurface water ice in Faustini Crater. We assumed a standard L-Band radar penetration depth of 5.0 meters and calculated a conservative (10%) and optimistic (40%) ice fraction.
+
+**Execution Results (2026-06-29):**
+- **Total Surface Area:** 688,695 m² (~0.69 km²)
+- **Total Regolith Volume:** 3,443,477 m³
+- **Conservative Estimate (10%):** 316,456 Metric Tonnes of Water Ice
+- **Optimistic Estimate (40%):** 1,265,822 Metric Tonnes of Water Ice
+
+**Scientific Conclusion:**
+The analysis strongly indicates the presence of roughly 300,000 to 1.2 million metric tonnes of subsurface water-ice concentrated within a ~0.69 km² area of the Faustini crater.
+
+---
+
 ## 6. Integration Pipeline (Phase 2: The "Wow Factor")
 
-### Part A: GeoTIFF Generation
-- Export the filtered numpy arrays as a georeferenced TIFF file (`ice_heatmap.tif`) that aligns with lunar mapping standards.
+### Part A: GeoTIFF + Heatmap Generation — ✅ COMPLETED
+**Script:** `src/06_ice_heatmap.py`
+
+Generated both a publication-quality PNG and a 2-band GeoTIFF of the confirmed ice candidates:
+- **PNG** (`ice_heatmap_cpr_dop.png`): Side-by-side map with CPR intensity (left) and DOP confidence (right). Plotted in local km coordinates to correct for polar geometric distortion. Includes crater rim boundary and F2 sub-crater marker.
+- **GeoTIFF** (`ice_heatmap.tif`): 2-band raster (Band 1 = CPR, Band 2 = DOP) in geographic CRS (EPSG:4326). 766 × 1118 grid, ready for Phase 2 3D terrain integration.
 
 ### Part B: 3D Terrain Assembly
 - Import DEM and `ice_heatmap.tif` into 3D visualization software/code (e.g., Python `pyvista`, QGIS 3D, or Blender).
@@ -360,8 +380,8 @@ ISRO Project/
 | Code the CPR/DOP mathematical formulas | ✅ |
 | Geolocate ice candidates to lat/lon | ✅ |
 | Apply Spudis exterior rim check | ✅ |
-| Estimate ice volume | ❌ |
-| Generate the 2D Ice Heatmap overlay | ❌ |
+| Estimate ice volume | ✅ |
+| Generate the 2D Ice Heatmap overlay | ✅ |
 
 ### Downstream Tasks
 | Task | Status |
