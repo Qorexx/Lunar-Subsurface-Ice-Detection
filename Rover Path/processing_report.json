@@ -1,0 +1,51 @@
+{
+  "steps": [],
+  "parameters": {},
+  "outputs": {
+    "calibrated_radiance": "/home/z/my-project/download/ohrc_processed/calibrated_radiance.tif",
+    "reflectance_if": "/home/z/my-project/download/ohrc_processed/reflectance_if.tif",
+    "dem": "/home/z/my-project/download/ohrc_processed/dem_photoclinometry.tif",
+    "slope_map": "/home/z/my-project/download/ohrc_processed/slope_map.tif",
+    "roughness_map": "/home/z/my-project/download/ohrc_processed/roughness_map.tif",
+    "shadow_mask": "/home/z/my-project/download/ohrc_processed/shadow_mask.tif",
+    "visualization": "/home/z/my-project/download/ohrc_processed/ohrc_processing_results.png"
+  },
+  "mode": "synthetic",
+  "statistics": {
+    "raw_dn": {
+      "min": 0.0,
+      "max": 20.0,
+      "mean": 5.689914703369141
+    },
+    "radiance": {
+      "min": 0.3333333333333333,
+      "max": 6.666666666666667,
+      "mean": 3.7784592079197883
+    },
+    "reflectance": {
+      "min": 0.008705116319097133,
+      "max": 0.17410232638194267,
+      "mean": 0.09867578073571617
+    },
+    "dem": {
+      "min_m": -75.34097512401961,
+      "max_m": 94.51988101392037,
+      "range_m": 169.86085613793998
+    },
+    "slope_deg": {
+      "min": 0.07498451409637404,
+      "max": 77.74346427803258,
+      "mean": 39.42354705644035
+    },
+    "shadow_fraction": 0.0
+  },
+  "algorithm": {
+    "reflectance_model": "Lunar-Lambertian (McEwen 1991)",
+    "albedo": 0.12,
+    "lunar_lambertian_weight_AL": 0.6,
+    "dem_integration": "Frankot-Chellappa (1988), Fourier domain",
+    "slope_method": "Horn (3x3 gradient)",
+    "roughness_kernel": "5x5 std dev",
+    "shadow_threshold": 0.005
+  }
+}
