@@ -286,6 +286,79 @@ def add_rover_path(path_arr):
         name="Rover Path (A* Optimal)"
     ))
 
+    # --- Add SoC Waypoints based on Research Foundation ---
+    num_waypoints = 10
+    wp_indices = np.linspace(0, len(path_arr) - 1, num_waypoints, dtype=int)
+    
+    # Find the index where it enters PSR
+    psr_entry_idx = 0
+    for idx in range(len(path_arr)):
+        row, col = path_arr[idx]
+        if faustini_mask[row, col]:
+            psr_entry_idx = idx
+            break
+            
+    wp_xs, wp_ys, wp_zs, wp_text, wp_colors = [], [], [], [], []
+    
+    for i, idx in enumerate(wp_indices):
+        row, col = path_arr[idx]
+        gz = get_surface_z(col, row) + 0.6 
+        
+        # Determine environment
+        if dsc_mask[row, col]:
+            env = "Doubly Shadowed Crater (DSC)"
+            phase = "PSR Science (Target)"
+        elif faustini_mask[row, col]:
+            env = "Permanently Shadowed Region (PSR)"
+            phase = "PSR Traverse"
+        else:
+            env = "Sunlit Rim"
+            phase = "Sunlit Charging"
+            
+        # Calculate SoC based on position relative to PSR entry
+        if idx <= psr_entry_idx:
+            # Interpolate 40% to 100%
+            if psr_entry_idx == 0:
+                current_soc = 100.0
+            else:
+                progress = idx / psr_entry_idx
+                current_soc = 40.0 + (60.0 * progress)
+        else:
+            # Interpolate 100% down to 38% at the end
+            remaining_steps = len(path_arr) - 1 - psr_entry_idx
+            if remaining_steps == 0:
+                current_soc = 38.0
+            else:
+                progress = (idx - psr_entry_idx) / remaining_steps
+                current_soc = 100.0 - (62.0 * progress)
+                
+        wp_xs.append(col)
+        wp_ys.append(row)
+        wp_zs.append(gz)
+        wp_colors.append(current_soc)
+        wp_text.append(
+            f"<b>Waypoint W{i+1}</b><br>"
+            f"Phase: {phase}<br>"
+            f"Environment: {env}<br>"
+            f"<b>State of Charge: {current_soc:.1f}%</b>"
+        )
+        
+    fig.add_trace(go.Scatter3d(
+        x=wp_xs, y=wp_ys, z=wp_zs,
+        mode='markers',
+        marker=dict(
+            size=8,
+            color=wp_colors,
+            colorscale='RdYlGn',
+            cmin=20, cmax=100,
+            symbol='circle',
+            line=dict(color='white', width=1)
+        ),
+        text=wp_text,
+        hoverinfo='text',
+        name="SoC Waypoints"
+    ))
+
 # Load the A* computed path
 try:
     rover_path_pixels = np.load(os.path.join(DATA_DIR, "..", "..", "Rover Path", "output", "rover_path_pixels.npy"))
