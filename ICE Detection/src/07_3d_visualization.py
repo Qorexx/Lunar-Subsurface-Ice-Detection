@@ -265,10 +265,9 @@ def add_landing_site(lat, lon, label="Landing Site"):
     gz = get_surface_z(gx, gy) + 0.5
     fig.add_trace(go.Scatter3d(
         x=[gx], y=[gy], z=[gz],
-        mode='markers+text',
-        marker=dict(size=10, color='yellow', symbol='diamond'),
-        text=[label], textposition="top center",
-        textfont=dict(size=14, color='yellow'),
+        mode='text',
+        text=["🚀 " + label], textposition="top center",
+        textfont=dict(size=20, color='white'),
         name="Lander"
     ))
 
@@ -365,7 +364,7 @@ try:
     start_row, start_col = rover_path_pixels[0]
     landing_lat, landing_lon = grid_to_latlon(start_col, start_row)
     
-    add_landing_site(landing_lat, landing_lon, label="Landing Site (Temp)")
+    add_landing_site(landing_lat, landing_lon, label="Landing Site")
     add_rover_path(rover_path_pixels)
 except Exception as e:
     print(f"Warning: Could not load A* path ({e}), using fallback.")
