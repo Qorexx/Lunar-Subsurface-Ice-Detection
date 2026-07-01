@@ -88,9 +88,19 @@ def astar_path(cost_map, start, goal):
     return path
 
 # Define Start and End Points
-# F2 Ice Target (from our ICE Detection phase) is around center of the crater
-# In our 400x400 grid, F2 is roughly at (200, 200)
-GOAL_POS = (200, 200) 
+# F2 Ice Target (from our ICE Detection phase)
+F2_LAT, F2_LON = -87.39, 82.31
+
+OBJ_LON_MIN, OBJ_LON_MAX = 67.4943, 102.4096
+OBJ_LAT_MIN, OBJ_LAT_MAX = -87.7853, -86.4307
+GRID_SIZE = 400
+
+def latlon_to_grid(lat, lon):
+    gx = (lon - OBJ_LON_MIN) / (OBJ_LON_MAX - OBJ_LON_MIN) * (GRID_SIZE - 1)
+    gy = (OBJ_LAT_MAX - lat) / (OBJ_LAT_MAX - OBJ_LAT_MIN) * (GRID_SIZE - 1)
+    return int(round(gy)), int(round(gx)) # row, col
+
+GOAL_POS = latlon_to_grid(F2_LAT, F2_LON)
 
 # Temporary Landing Site: Somewhere on the rim (let's pick top right rim)
 # We look for a flat spot near the top right corner
