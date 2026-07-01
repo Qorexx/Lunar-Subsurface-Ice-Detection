@@ -272,26 +272,34 @@ def add_landing_site(lat, lon, label="Landing Site"):
         name="Lander"
     ))
 
-def add_rover_path(coords):
+def add_rover_path(path_arr):
+    # path_arr contains grid coordinates (row, col) = (y, x)
     xs, ys, zs = [], [], []
-    for lat, lon in coords:
-        gx, gy = latlon_to_grid(lat, lon)
-        gz = get_surface_z(gx, gy) + 0.2
-        xs.append(gx); ys.append(gy); zs.append(gz)
+    for row, col in path_arr:
+        gz = get_surface_z(col, row) + 0.2
+        xs.append(col); ys.append(row); zs.append(gz)
     fig.add_trace(go.Scatter3d(
         x=xs, y=ys, z=zs,
         mode='lines+markers',
         line=dict(color='#ff00ff', width=6),
         marker=dict(size=3, color='#ff00ff'),
-        name="Rover Path"
+        name="Rover Path (A* Optimal)"
     ))
 
-# Placeholder (teammates replace these)
-add_landing_site(-87.15, 82.0)
-add_rover_path([
-    (-87.15, 82.0), (-87.20, 81.0), (-87.25, 82.5),
-    (-87.30, 81.5), (-87.35, 82.3), (-87.39, 82.31)
-])
+# Load the A* computed path
+try:
+    rover_path_pixels = np.load(os.path.join(DATA_DIR, "..", "..", "Rover Path", "output", "rover_path_pixels.npy"))
+    start_row, start_col = rover_path_pixels[0]
+    landing_lat, landing_lon = grid_to_latlon(start_col, start_row)
+    
+    add_landing_site(landing_lat, landing_lon, label="Landing Site (Temp)")
+    add_rover_path(rover_path_pixels)
+except Exception as e:
+    print(f"Warning: Could not load A* path ({e}), using fallback.")
+    # Placeholder (teammates replace these)
+    add_landing_site(-87.15, 82.0)
+    add_rover_path([(200, 200)]) # Fallback to F2
+
 
 # =============================================================================
 # 8. LAYOUT
