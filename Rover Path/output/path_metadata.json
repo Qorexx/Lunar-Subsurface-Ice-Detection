@@ -1,0 +1,27 @@
+{
+  "start_grid": [
+    332,
+    293
+  ],
+  "goal_grid": [
+    279,
+    168
+  ],
+  "start_latlon": [
+    -87.55783583959901,
+    93.13385614035087
+  ],
+  "goal_latlon": [
+    -87.3779015037594,
+    82.19547894736841
+  ],
+  "total_distance_m": 15119.595949289343,
+  "total_distance_km": 15.119595949289344,
+  "waypoints": 129,
+  "nodes_explored": 85860,
+  "elevation_gain_m": 0.5177717000000008,
+  "elevation_loss_m": 26.53308789999999,
+  "max_slope_deg": 0.32336222916241086,
+  "algorithm": "A* with 8-directional movement",
+  "cost_factors": "slope \u00d7 shadow_penalty \u00d7 roughness + elevation_change"
+}
